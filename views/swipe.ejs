@@ -40,7 +40,7 @@
           <form action="/date-finder/swipe" method="POST">
             <input type="hidden" name="targetId" value="<%= potentialMatch.id %>">
             <input type="hidden" name="action" value="pass">
-            <button type="submit" class="btn-pass">Pass</button>
+            <button type="submit" class="btn-dislike">Pass</button>
           </form>
           
           <form action="/date-finder/swipe" method="POST">
@@ -49,10 +49,9 @@
             <button type="submit" class="btn-like">Like</button>
           </form>
         </div>
-        
-        <div class="swipe-count">
-          <%= remainingMatches %> potential matches remaining
-        </div>
+      </div>
+      <div class="swipe-count">
+        <%= remainingMatches %> potential matches remaining
       </div>
     <% } else { %>
       <div class="no-matches">
