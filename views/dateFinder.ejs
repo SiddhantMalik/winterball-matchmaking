@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Find Your Winterball Date</title>
+</head>
+<body>
+  <h1>Find Your Winterball Date</h1>
+  <form action="/date-finder/results" method="POST">
+    <label for="name">Your Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <label for="preferences">Your Preferences (JSON format):</label>
+    <textarea id="preferences" name="preferences" required>
+      {"dancing": 5, "music": 3, "movies": 4}
+    </textarea>
+    <br>
+    <button type="submit">Find Matches</button>
+  </form>
+</body>
+</html>

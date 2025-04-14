@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Matches</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="app-nav">
+      <a href="/date-finder/swipe">Swipe</a>
+      <a href="/date-finder/matches" class="active">Matches</a>
+      <a href="/auth/logout" class="logout">Logout</a>
+    </nav>
+    
+    <h1>Your Matches</h1>
+    
+    <% if (matches.length > 0) { %>
+      <div class="matches-grid">
+        <% matches.forEach(match => { %>
+          <div class="match-card">
+            <h3><%= match.name %></h3>
+            <p><%= match.bio.substring(0, 100) %>...</p>
+            <div class="interests">
+              <% match.interests.slice(0, 3).forEach(interest => { %>
+                <span class="interest-tag"><%= interest %></span>
+              <% }) %>
+            </div>
+            <a href="#" class="btn-message">Message</a>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="no-matches">
+        <h2>No matches yet</h2>
+        <p>Start swiping to find your Winterball date!</p>
+        <a href="/date-finder/swipe" class="btn-primary">Start Swiping</a>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

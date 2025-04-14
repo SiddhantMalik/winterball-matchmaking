@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Winterball Date Finder</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Find Your Winterball Date</h1>
+    <div class="profile-card">
+      <h2>Create Your Profile</h2>
+      <form action="/date-finder/create-profile" method="POST">
+        <div class="form-group">
+          <label for="name">Your Name:</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="bio">About Me:</label>
+          <textarea id="bio" name="bio" rows="4" required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="interests">Interests (comma separated):</label>
+          <input type="text" id="interests" name="interests" 
+                 placeholder="dancing, music, movies" required>
+        </div>
+        
+        <button type="submit" class="btn-primary">Create Profile</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+  <title>Find Your Match</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="app-nav">
+      <a href="/date-finder/swipe" class="active">Swipe</a>
+      <a href="/date-finder/matches">Matches</a>
+      <a href="/auth/logout" class="logout">Logout</a>
+    </nav>
+    
+    <% if (potentialMatch) { %>
+      <div class="swipe-card">
+        <h2><%= potentialMatch.name %></h2>
+        <p class="bio"><%= potentialMatch.bio %></p>
+        <div class="interests">
+          <% potentialMatch.interests.forEach(interest => { %>
+            <span class="interest-tag"><%= interest %></span>
+          <% }) %>
+        </div>
+        
+        <div class="swipe-actions">
+          <form action="/date-finder/swipe" method="POST">
+            <input type="hidden" name="targetId" value="<%= potentialMatch.id %>">
+            <input type="hidden" name="action" value="dislike">
+            <button type="submit" class="btn-dislike">Pass</button>
+          </form>
+          
+          <form action="/date-finder/swipe" method="POST">
+            <input type="hidden" name="targetId" value="<%= potentialMatch.id %>">
+            <input type="hidden" name="action" value="like">
+            <button type="submit" class="btn-like">Like</button>
+          </form>
+        </div>
+      </div>
+      <p class="remaining-count"><%= remainingMatches %> potential matches remaining</p>
+    <% } else { %>
+      <div class="no-matches">
+        <h2>No more potential matches</h2>
+        <p>Check back later or invite more friends to join!</p>
+      </div>
+    <% } %>
+  </div>
+  <script src="/js/swipe.js"></script>
+</body>
+</html>

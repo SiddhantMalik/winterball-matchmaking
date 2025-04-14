@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Matches</title>
+</head>
+<body>
+  <h1>Hello <%= name %>, here are your matches:</h1>
+  <ul>
+    <% if (matches.length > 0) { %>
+      <% matches.forEach(match => { %>
+        <li>
+          <%= match.name %> - Match Score: 
+          <%= match.score ? match.score.toFixed(2) : '0.00' %>%
+        </li>
+      <% }) %>
+    <% } else { %>
+      <li>No matches found.</li>
+    <% } %>
+  </ul>
+  <a href="/date-finder">Try Again</a>
+</body>
+</html>

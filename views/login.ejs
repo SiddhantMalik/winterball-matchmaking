@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login | Winterball Date Finder</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Login to Winterball Date Finder</h1>
+    <div class="profile-card">
+      <% if (locals.error) { %>
+        <div class="error-message"><%= error %></div>
+      <% } %>
+      
+      <form action="/auth/login" method="POST">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" value="<%= locals.email || '' %>" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
+      
+      <p class="text-center">
+        Don't have an account? <a href="/auth/register">Register</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>
