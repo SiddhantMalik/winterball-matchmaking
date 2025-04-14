@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Your Profile | Winterball Date Finder</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="app-nav">
+      <a href="/date-finder/swipe">Swipe</a>
+      <a href="/date-finder/matches">Matches</a>
+      <a href="/date-finder/edit-profile" class="active">Edit Profile</a>
+      <a href="/auth/logout" class="logout">Logout</a>
+    </nav>
+
+    <h1>Edit Your Profile</h1>
+    <div class="profile-card">
+      <form action="/date-finder/edit-profile" method="POST">
+        <div class="form-group">
+          <label for="name">Your Name:</label>
+          <input type="text" id="name" name="name" value="<%= user.name %>" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="bio">About Me:</label>
+          <textarea id="bio" name="bio" rows="4" required><%= user.bio %></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="interests">Interests (comma separated):</label>
+          <input type="text" id="interests" name="interests" 
+                value="<%= user.interests && Array.isArray(user.interests) ? user.interests.join(', ') : '' %>" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="gender">Your Gender:</label>
+          <select id="gender" name="gender" required>
+            <option value="male" <%= user.gender === 'male' ? 'selected' : '' %>>Male</option>
+            <option value="female" <%= user.gender === 'female' ? 'selected' : '' %>>Female</option>
+            <option value="non-binary" <%= user.gender === 'non-binary' ? 'selected' : '' %>>Non-binary</option>
+            <option value="other" <%= user.gender === 'other' ? 'selected' : '' %>>Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="genderPreference">Interested In:</label>
+          <select id="genderPreference" name="genderPreference" required>
+            <option value="male" <%= user.genderPreference === 'male' ? 'selected' : '' %>>Men</option>
+            <option value="female" <%= user.genderPreference === 'female' ? 'selected' : '' %>>Women</option>
+            <option value="everyone" <%= user.genderPreference === 'everyone' ? 'selected' : '' %>>Everyone</option>
+          </select>
+        </div>
+        
+        <button type="submit" class="btn-primary">Save Changes</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
