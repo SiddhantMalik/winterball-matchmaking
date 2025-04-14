@@ -7,7 +7,7 @@ exports.getRegisterPage = (req, res) => {
 
 // Handle user registration
 exports.registerUser = (req, res) => {
-  const { name, email, password, bio, interests } = req.body;
+  const { name, email, password, bio, interests, gender, genderPreference } = req.body;
   
   // Check if user already exists
   if (User.getUserByEmail(email)) {
@@ -23,7 +23,7 @@ exports.registerUser = (req, res) => {
   const interestsArray = interests.split(',').map(item => item.trim());
   
   // Create new user
-  const user = new User(null, name, email, password, bio, interestsArray);
+  const user = new User(null, name, email, password, bio, interestsArray, gender, genderPreference);
   User.addUser(user);
   
   // Set session to keep user logged in

@@ -3,13 +3,15 @@ const likes = new Map(); // Store user likes: userId => [liked user ids]
 const matches = new Map(); // Store matches: userId => [matched user ids]
 
 class User {
-  constructor(id, name, email, password, bio, interests, photos = []) {
+  constructor(id, name, email, password, bio, interests, gender = "", genderPreference = "", photos = []) {
     this.id = id || Date.now().toString();
     this.email = email;
     this.password = password; // In production, this should be hashed
     this.name = name;
     this.bio = bio;
     this.interests = interests;
+    this.gender = gender;
+    this.genderPreference = genderPreference;
     this.photos = photos;
   }
 
@@ -28,6 +30,16 @@ class User {
   
   static getAllUsers() {
     return users;
+  }
+  
+  static updateUser(id, updates) {
+    const userIndex = users.findIndex(user => user.id === id);
+    if (userIndex !== -1) {
+      // Update only the provided fields
+      users[userIndex] = { ...users[userIndex], ...updates };
+      return users[userIndex];
+    }
+    return null;
   }
   
   static addLike(userId, likedUserId) {
@@ -65,9 +77,14 @@ class User {
   }
   
   static getPotentialMatches(userId) {
+    const currentUser = this.getUserById(userId);
     const userLikes = likes.get(userId) || [];
+    
     return users.filter(user => 
-      user.id !== userId && !userLikes.includes(user.id)
+      user.id !== userId && 
+      !userLikes.includes(user.id) &&
+      // Filter by gender preference if specified
+      (!currentUser.genderPreference || currentUser.genderPreference === user.gender)
     );
   }
 }

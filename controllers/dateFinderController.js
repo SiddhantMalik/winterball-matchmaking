@@ -7,12 +7,12 @@ exports.getHomePage = (req, res) => {
 
 // Create a new user profile
 exports.createProfile = (req, res) => {
-  const { name, bio, interests } = req.body;
+  const { name, email, password, bio, interests, gender, genderPreference } = req.body;
   
   // Parse interests into an array
   const interestsArray = interests.split(',').map(item => item.trim());
   
-  const user = new User(null, name, bio, interestsArray);
+  const user = new User(null, name, email, password, bio, interestsArray, gender, genderPreference);
   User.addUser(user);
   
   // Set session to keep user logged in
@@ -30,11 +30,16 @@ exports.getSwipePage = (req, res) => {
   }
   
   const currentUser = User.getUserById(userId);
-  const potentialMatches = User.getPotentialMatches(userId);
+  if (!currentUser) {
+    req.session.destroy();
+    return res.redirect('/');
+  }
+  
+  const potentialMatches = User.getPotentialMatches(userId) || [];
   
   res.render('swipe', { 
     user: currentUser,
-    potentialMatch: potentialMatches[0] || null,
+    potentialMatch: potentialMatches.length > 0 ? potentialMatches[0] : null,
     remainingMatches: potentialMatches.length
   });
 };
@@ -69,4 +74,39 @@ exports.getMatchesPage = (req, res) => {
     matches,
     user: User.getUserById(userId)
   });
+};
+
+// Display edit profile page
+exports.getEditProfilePage = (req, res) => {
+  const userId = req.session.userId;
+  
+  if (!userId) {
+    return res.redirect('/');
+  }
+  
+  const user = User.getUserById(userId);
+  
+  res.render('editProfile', { user });
+};
+
+// Update user profile
+exports.updateProfile = (req, res) => {
+  const userId = req.session.userId;
+  
+  if (!userId) {
+    return res.redirect('/');
+  }
+  
+  const { name, bio, interests, gender, genderPreference } = req.body;
+  const interestsArray = interests.split(',').map(item => item.trim());
+  
+  User.updateUser(userId, {
+    name,
+    bio,
+    interests: interestsArray,
+    gender,
+    genderPreference
+  });
+  
+  res.redirect('/date-finder/matches');
 };

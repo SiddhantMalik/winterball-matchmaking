@@ -13,4 +13,8 @@ router.post('/swipe', dateFinderController.processSwipe);
 // Matches
 router.get('/matches', dateFinderController.getMatchesPage);
 
+// Profile editing
+router.get('/edit-profile', dateFinderController.getEditProfilePage);
+router.post('/edit-profile', dateFinderController.updateProfile);
+
 module.exports = router;
